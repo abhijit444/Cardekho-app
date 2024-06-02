@@ -37,6 +37,7 @@ def car_list_view(request):
             return Response(status = status.HTTP_404_NOT_FOUND)
         serializer = carserializer(car, many = True)
         return Response(serializer.data)
+    
     if request.method == 'POST':
         serializer = carserializer(data = request.data)
         if serializer.is_valid():

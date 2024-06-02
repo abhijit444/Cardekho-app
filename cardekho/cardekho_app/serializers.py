@@ -62,3 +62,4 @@ class ShowroomSerializer(serializers.ModelSerializer):
     class Meta:
         model = showroomlist
         fields = '__all__'
+
