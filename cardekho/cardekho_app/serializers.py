@@ -10,18 +10,21 @@ class carserializer(serializers.ModelSerializer):
         fields = '__all__'
         #fields = ['model', 'id', 'description']
         #exclude = ['name']
-        
+
+#FIELD-LEVEL VALIDATION        
     def get_discounted_price(self, object):
         price = object.price
         if price is not None:
             return price - 5000
         return None
 
+#FIELD-LEVEL VALIDATION 
     def validate_price(self, value):
         if value <=20000:
             raise serializers.ValidationError("Price must be greater than 20000")
         return value
-    
+
+#FIELD-LEVEL VALIDATION     
     def validate_chassisnumber(self, value):
         """
         Check if the chassisnumber is alphanumeric.
@@ -29,7 +32,8 @@ class carserializer(serializers.ModelSerializer):
         if value and not value.isalnum():
             raise serializers.ValidationError("Chassis number must be alphanumeric")
         return value
-    
+
+#OBJECT-LEVEL VALIDATION   
     def validate(self, data):
         if data['model'] == data['description']:
             raise serializers.ValidationError("Name and description can't be same")
