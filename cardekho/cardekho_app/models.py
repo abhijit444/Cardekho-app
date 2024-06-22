@@ -2,6 +2,17 @@ from django.db import models
 from django.core.validators import MaxLengthValidator, MinLengthValidator
 from django.core.exceptions import ValidationError
 
+#Field Vlidations that can be used in models -
+    #auto_now
+    #auto_now_add
+    #blank
+    #decimal_places
+    #default
+    #max_length, max_digits
+    #null
+    #unique
+    #validators
+
 # Create your models here.
 class showroomlist(models.Model):
     name = models.CharField(max_length = 50)

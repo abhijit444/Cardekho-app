@@ -33,7 +33,7 @@ def car_list_view(request):
     if request.method == 'GET':
         try:
             car = carlist.objects.all()
-        except:
+        except carlist.DoesNotExist:
             return Response(status = status.HTTP_404_NOT_FOUND)
         serializer = carserializer(car, many = True)
         return Response(serializer.data)
@@ -47,27 +47,44 @@ def car_list_view(request):
             return Response(serializer.errors)
          
 
-@api_view(['GET','PUT','DELETE'])
+@api_view(['GET','PUT','PATCH','DELETE'])
 def car_detail_view(request, pk):
 #READ REQUEST
         if request.method == 'GET':
                 try:
                     car = carlist.objects.get(pk = pk)
-                except:
+                except carlist.DoesNotExist:
                     return Response(status = status.HTTP_404_NOT_FOUND)
                 serializer = carserializer(car)
                 return Response(serializer.data)
 
         #CREATE/POST REQUEST
         if request.method == 'PUT':
-                car = carlist.objects.get(pk = pk)
+                try:
+                    car = carlist.objects.get(pk = pk)
+                except carlist.DoesNotExist:
+                    return Response(status = status.HTTP_404_NOT_FOUND)
                 serializer = carserializer(car, data = request.data)
                 if serializer.is_valid():
                     serializer.save()
                     return Response(serializer.data)
                 else:
                     return Response(serializer.errors)
-
+        
+        #PATCH REQUEST
+        if request.method == 'PATCH':
+                try:
+                    car = carlist.objects.get(pk = pk)
+                except carlist.DoesNotExist:
+                    return Response(status = status.HTTP_404_NOT_FOUND)
+                serializer = carserializer(car, data = request.data, partial = True)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response(serializer.data)
+                else:
+                    return Response(serializer.errors)
+        
+        #DELETE REQUEST
         if request.method == 'DELETE':
                 car = carlist.objects.get(pk = pk)
                 car.delete()

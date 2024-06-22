@@ -2,7 +2,6 @@ from django.contrib import admin
 from .models import carlist, showroomlist, review
 
 
-
 admin.site.site_header = 'Cardekho Project'
 admin.site.site_title = 'Car showroom management system'
 admin.site.index_title = "Dashboard"
